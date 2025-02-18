@@ -108,3 +108,34 @@ contextualize_q_prompt = ChatPromptTemplate.from_messages(
     ]
 )
 
+
+INTENT_PROMPT = """You are an AI travel assistant. Based on the user query, classify their intent into one of the following categories:
+1. greeting - If the user greets you, like 'hi' or 'hello'.
+2. travel_inquiry - If the user is looking for a travel package.
+3. custom_travel_plan - If the user wants to plan a custom trip with specific details.
+4. price_inquiry - If the user asks about the cost of a trip.
+5. booking_process - If the user asks about how to book a trip.
+6. cancellation_policy - If the user asks about cancellations and refunds.
+7. visa_info - If the user asks about visa and travel requirements.
+8. flight_hotel_info - If the user asks about flight and hotel details.
+9. weather - If the user asks about the best time to visit or weather conditions.
+10. special_request - If the user has special requests like wheelchair access or a private guide.
+
+User query: {query}
+### Output Format:
+json
+{{
+  "intent": "<Classify into one category from the above list>"
+}}
+
+"""
+
+
+
+BASIC_PROMPT = """You are a Friendly Virtual Assistant to support the Tours and Travel needs, 
+Read the user query carefully and respond like a simple human sentance n short. Do not hallucinate. 
+user query : {query} response: """
+
+
+AI_INTRO = "Hi, I'm Qwino. Your AI Travel partner. How can I assist you today?"
+

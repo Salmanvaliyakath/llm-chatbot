@@ -2,6 +2,8 @@ from langchain_community.document_loaders import PyMuPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 from pathlib import Path
+import json
+import re
 
 
 from langchain_community.vectorstores import FAISS
@@ -78,3 +80,25 @@ class SetupIndex:
         print('Retriever loaded')
 
         return retriever
+    
+
+
+def extract_json(response_text):
+    """Extracts valid JSON from LLM response using regex."""
+    try:
+        json_match = re.search(r"\{.*\}", response_text, re.DOTALL)
+        if json_match:
+            extracted_json = json_match.group(0)
+            return json.loads(extracted_json)  # Convert to Python dict
+        else:
+            raise ValueError("No JSON found in response")
+    except json.JSONDecodeError as e:
+        raise ValueError(f"Invalid JSON format: {e}")
+    
+
+
+def remove_thinking_tags(response_text):
+    
+    # Regular expression to match <think>...</think> blocks
+    cleaned_response = re.sub(r'<think>.*?</think>', '', response_text, flags=re.DOTALL)
+    return cleaned_response.strip()
